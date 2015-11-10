@@ -49,11 +49,11 @@ border-right: 1px dotted;
         <div>${gene.name} <#if gene.complement>COMPLEMENT</#if></div>
       </#list>
     </#if>
-    <#if matchedSequence.leftNearestGeneMatchedPresent>
+    <#if matchedSequence.rightNearestGeneMatchedPresent>
       <br/>
-      <div><b>nearest left:</b></div>
+      <div><b>nearest SEQ_END --> GENE_START:</b></div>
       <table >
-      <#list matchedSequence.leftNearestGene as nGene>
+      <#list matchedSequence.rightNearestGene as nGene>
         <tr>
           <td class="genome_distance">${nGene.gene.name} <#if nGene.gene.complement>COMPLEMENT</#if></td><td>${nGene.distance}</td>
         </tr>

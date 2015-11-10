@@ -95,13 +95,13 @@ public class GbFileData {
     blackList.addAll(partialyMatched);
     blackList.addAll(wholeMatched);
 
-    List<NearestGeneOutput> leftNearestGene = findLeftNearestGenes(currentSequence.getStartIndex(), blackList);
-    currentSequence.setLeftNearestGene(leftNearestGene);
-
-
+    if (blackList.isEmpty()) {
+      List<NearestGeneOutput> nearRight = findRightNearestGenes(currentSequence.getStartIndex(), blackList);
+      currentSequence.setRightNearestGene(nearRight);
+    }
   }
 
-  private List<NearestGeneOutput> findRightNearestGenes(int endIndex) {
+  private List<NearestGeneOutput> findRightNearestGenes(int endIndex, Set<String> blackList) {
     for (int i = endIndex; i < genome.length(); i++) {
       Set<String> genes = geneNameForIndex.get(i);
       if (genes == null || genes.isEmpty()) {
@@ -109,8 +109,14 @@ public class GbFileData {
       }
       final List<NearestGeneOutput> result = new ArrayList<>();
       for (String geneName : genes) {
+        if (blackList.contains(geneName)) {
+          continue;
+        }
         GeneInformation geneInformation = geneByName.get(geneName);
         result.add(NearestGeneOutput.of(geneInformation.toOutput(), i - endIndex));
+      }
+      if (result.isEmpty()) {
+        continue;
       }
       return result;
     }
