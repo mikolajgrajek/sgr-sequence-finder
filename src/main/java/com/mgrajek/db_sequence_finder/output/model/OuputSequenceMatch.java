@@ -14,8 +14,8 @@ public class OuputSequenceMatch {
   private List<OutputGeneInformation> wholeGenesMatch = new ArrayList<>();
   private List<OutputGeneInformation> partialGenesMatch = new ArrayList<>();
 
-  private List<NearestGeneOutput> leftNearestGene;
-  private List<NearestGeneOutput> rightNearestGene;
+  private List<NearestGeneOutput> leftNearestGene = new ArrayList<>();
+  private List<NearestGeneOutput> rightNearestGene = new ArrayList<>();
 
   public boolean isWholeGeneMatchedPresent() {
     return !wholeGenesMatch.isEmpty();
@@ -26,11 +26,11 @@ public class OuputSequenceMatch {
   }
 
   public boolean isLeftNearestGeneMatchedPresent() {
-    return leftNearestGene != null;
+    return !leftNearestGene.isEmpty();
   }
 
   public boolean isRightNearestGeneMatchedPresent() {
-    return rightNearestGene != null;
+    return !rightNearestGene.isEmpty();
   }
 
   public void addNucleotyde(NucleotydeMatch nucleotyde) {

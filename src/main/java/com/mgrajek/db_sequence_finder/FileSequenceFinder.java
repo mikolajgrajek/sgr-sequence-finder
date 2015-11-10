@@ -67,6 +67,10 @@ public class FileSequenceFinder {
 
   private OuputSequenceMatch currentSequence;
 
+  int wholeSum = 0;
+  int partialSum = 0;
+  int nearestSum = 0;
+
   private void computeOutput() {
     System.out.println("Processing data...");
 
@@ -100,6 +104,8 @@ public class FileSequenceFinder {
       }
       currentRangeMatch = new OuputRangeMatch();
     }
+
+    System.out.printf("\nGene match stats:\n\twhole %d\n\tpartial: %d\n\tnearest: %d\n", wholeSum, partialSum, nearestSum);
   }
 
   private void startMatchingSequence(int index, Integer valueForIndex) {
@@ -124,6 +130,11 @@ public class FileSequenceFinder {
 
 //    System.out.println("\t\tFound seq match: " + currentSequence.getStartIndex() + "-" + currentSequence.getEndIndex());
     gbFileData.addGeneMatches(currentSequence);
+
+    wholeSum += currentSequence.getWholeGenesMatch().size();
+    partialSum += currentSequence.getPartialGenesMatch().size();
+    nearestSum += currentSequence.getRightNearestGene().size();
+
     currentRangeMatch.addMatchedSequence(currentSequence);
     currentSequence = null;
   }
