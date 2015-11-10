@@ -70,6 +70,7 @@ public class FileSequenceFinder {
   int wholeSum = 0;
   int partialSum = 0;
   int nearestSum = 0;
+  int nearestComplementSum = 0;
 
   private void computeOutput() {
     System.out.println("Processing data...");
@@ -105,7 +106,7 @@ public class FileSequenceFinder {
       currentRangeMatch = new OuputRangeMatch();
     }
 
-    System.out.printf("\nGene match stats:\n\twhole %d\n\tpartial: %d\n\tnearest: %d\n", wholeSum, partialSum, nearestSum);
+    System.out.printf("\nGene match stats:\n\twhole %d\n\tpartial: %d\n\tnearest: %d\n\tnearest Complement: %d\n", wholeSum, partialSum, nearestSum, nearestComplementSum);
   }
 
   private void startMatchingSequence(int index, Integer valueForIndex) {
@@ -134,6 +135,7 @@ public class FileSequenceFinder {
     wholeSum += currentSequence.getWholeGenesMatch().size();
     partialSum += currentSequence.getPartialGenesMatch().size();
     nearestSum += currentSequence.getRightNearestGene().size();
+    nearestComplementSum += currentSequence.getLeftNearestGene().size();
 
     currentRangeMatch.addMatchedSequence(currentSequence);
     currentSequence = null;

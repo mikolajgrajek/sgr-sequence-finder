@@ -96,12 +96,15 @@ public class GbFileData {
     blackList.addAll(wholeMatched);
 
     if (blackList.isEmpty()) {
-      List<NearestGeneOutput> nearRight = findRightNearestGenes(currentSequence.getStartIndex(), blackList);
+      List<NearestGeneOutput> nearRight = findNearestGenes(currentSequence.getStartIndex(), blackList);
       currentSequence.setRightNearestGene(nearRight);
+
+      List<NearestGeneOutput> nearLeft = findNearestComplementGenes(currentSequence.getStartIndex(), blackList);
+      currentSequence.setLeftNearestGene(nearLeft);
     }
   }
 
-  private List<NearestGeneOutput> findRightNearestGenes(int endIndex, Set<String> blackList) {
+  private List<NearestGeneOutput> findNearestGenes(int endIndex, Set<String> blackList) {
     for (int i = endIndex; i < genome.length(); i++) {
       Set<String> genes = geneNameForIndex.get(i);
       if (genes == null || genes.isEmpty()) {
@@ -113,7 +116,9 @@ public class GbFileData {
           continue;
         }
         GeneInformation geneInformation = geneByName.get(geneName);
-        result.add(NearestGeneOutput.of(geneInformation.toOutput(), i - endIndex));
+        if (!geneInformation.isComplement()) {
+          result.add(NearestGeneOutput.of(geneInformation.toOutput(), i - endIndex));
+        }
       }
       if (result.isEmpty()) {
         continue;
@@ -123,7 +128,7 @@ public class GbFileData {
     return null;
   }
 
-  private List<NearestGeneOutput> findLeftNearestGenes(int startIndex, Set<String> blackList) {
+  private List<NearestGeneOutput> findNearestComplementGenes(int startIndex, Set<String> blackList) {
     final List<NearestGeneOutput> result = new ArrayList<>();
     for (int i = startIndex; i >= 0; i--) {
       Set<String> genes = geneNameForIndex.get(i);
@@ -135,7 +140,9 @@ public class GbFileData {
           continue;
         }
         GeneInformation geneInformation = geneByName.get(geneName);
-        result.add(NearestGeneOutput.of(geneInformation.toOutput(), startIndex - i));
+        if (geneInformation.isComplement()) {
+          result.add(NearestGeneOutput.of(geneInformation.toOutput(), startIndex - i));
+        }
       }
       if (result.isEmpty()) {
         continue;

@@ -51,7 +51,7 @@ border-right: 1px dotted;
     </#if>
     <#if matchedSequence.rightNearestGeneMatchedPresent>
       <br/>
-      <div><b>nearest SEQ_END --> GENE_START:</b></div>
+      <div><b>nearest:</b></div>
       <table >
       <#list matchedSequence.rightNearestGene as nGene>
         <tr>
@@ -60,7 +60,17 @@ border-right: 1px dotted;
       </#list>
       </table>
     </#if>
-
+    <#if matchedSequence.leftNearestGeneMatchedPresent>
+      <br/>
+      <div><b>nearest COMPLEMENT:</b></div>
+      <table >
+      <#list matchedSequence.leftNearestGene as nGene>
+        <tr>
+          <td class="genome_distance">${nGene.gene.name} <#if nGene.gene.complement>COMPLEMENT</#if></td><td>${nGene.distance}</td>
+        </tr>
+      </#list>
+      </table>
+    </#if>
   </#list>
 
 </#list>
